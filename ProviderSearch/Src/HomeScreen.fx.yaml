@@ -1,0 +1,348 @@
+"HomeScreen As screen.'phoneBrowseReadonlyLayout_ver3.0'":
+    OnVisible: |
+        =Reset(txtSearchBox_Provider);
+        Concurrent(
+            ClearCollect(
+                 colProvidersChunk1,
+                 Sort('Provider For Patient Line', ID, Ascending)
+             ),
+             ClearCollect(
+                 colProvidersChunk2,
+                 Sort('Provider For Patient Line', ID, Descending)
+             )
+        );
+        ClearCollect(
+            colProviders,
+            colProvidersChunk1,
+            Filter(colProvidersChunk2, Not(ID in colProvidersChunk1.ID))
+        );
+        Clear(colProvidersChunk1);
+        Clear(colProvidersChunk2);
+        ClearCollect(
+            colClinics,
+            'Clinic For Patient Line'
+        );
+
+    RectQuickActionBar1 As rectangle:
+        Fill: =RGBA(166, 9, 61, 1)
+        Height: =88
+        Width: =1136
+        ZIndex: =1
+
+    "ProviderGallery As gallery.'BrowseLayout_Vertical_ThreeTextVariant_ver4.0'":
+        Height: =484
+        Items: |-
+            =//SortByColumns(Filter(colProviders,  StartsWith(Title, txtSearchBox_Provider.Text)), "Title")
+            Search(Filter(colProviders, txtSearchBox_Provider.Text in Title), txtSearchBox_Provider.Text, "Title")
+        Layout: =Layout.Vertical
+        OnSelect: =Navigate(ProviderScreen, ScreenTransition.None)
+        ShowScrollbar: =false
+        TemplatePadding: =0
+        TemplateSize: =255
+        Visible: |
+            =!IsBlank(txtSearchBox_Provider.Text)
+        Width: =568
+        Y: =156
+        ZIndex: =1
+
+        txtProviderName As label:
+            Height: =Self.Size * 1.8
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Text: =ThisItem.'Name of Provider'
+            VerticalAlign: =VerticalAlign.Top
+            Width: =Parent.TemplateWidth - 104
+            X: =16
+            Y: =18
+            ZIndex: =1
+
+        txtStatus As label:
+            Color: |
+                =If(ThisItem.ProviderStatus.Value = "Active", Color.Green,ThisItem.ProviderStatus.Value = "Left Clinic", Color.Red, Color.Blue)
+            FontWeight: =FontWeight.Bold
+            Height: =Self.Size * 1.8
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Text: =ThisItem.ProviderStatus.Value
+            VerticalAlign: =VerticalAlign.Top
+            Width: =Parent.TemplateWidth - 104
+            X: =16
+            Y: =54
+            ZIndex: =2
+
+        txtAttending As label:
+            Height: =36
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Text: |-
+                ="Attending Physician: " &ThisItem.'Residents/Attending Physician'
+            VerticalAlign: =VerticalAlign.Top
+            Width: =483
+            X: =16
+            Y: =86
+            ZIndex: =3
+
+        NextArrow3 As icon.ChevronRight:
+            AccessibleLabel: =Self.Tooltip
+            Height: =60
+            Icon: =Icon.ChevronRight
+            OnSelect: =Select(Parent)
+            PaddingBottom: =10
+            PaddingLeft: =10
+            PaddingRight: =10
+            PaddingTop: =10
+            TabIndex: =0
+            Tooltip: ="View item details"
+            Width: =60
+            X: =Parent.TemplateWidth - Self.Width - 5
+            Y: =(Parent.TemplateHeight / 2) - (Self.Height / 2)
+            ZIndex: =4
+
+        Separator3 As rectangle:
+            Height: =1
+            OnSelect: =Select(Parent)
+            Width: =Parent.TemplateWidth
+            Y: =Parent.TemplateHeight - 1
+            ZIndex: =5
+
+        txtAssocClinics As label:
+            Color: =If(Concat(ThisItem.AssociatedClinics, Value, ", ") = "Cheyenne Primary Care", Color.Orange, Color.Black)
+            Height: =73
+            OnSelect: |
+                =Text(Set(
+                    varProvClin,
+                    ThisItem.AssociatedClinics
+                ));
+            Overflow: =Overflow.Scroll
+            Size: =14
+            Text: |-
+                =Text(Concat(
+                    ThisItem.AssociatedClinics,
+                    Value,
+                    ", "
+                ))
+            Width: =487
+            X: =12
+            Y: =122
+            ZIndex: =6
+
+        txtComments As label:
+            Height: =53
+            OnSelect: =Select(Parent)
+            Overflow: =Overflow.Scroll
+            Size: =14
+            Text: =PlainText(ThisItem.Comments)
+            Width: =534
+            X: =12
+            Y: =195
+            ZIndex: =7
+
+    LblAppName1 As label:
+        Align: =Align.Center
+        Color: =RGBA(235, 235, 230, 1)
+        Fill: =RGBA(58, 58, 58, 0)
+        Height: =88
+        Size: =27
+        Text: ="PLRC Provider and Clinic Search"
+        Width: =550
+        Wrap: =false
+        X: =293
+        ZIndex: =2
+
+    ClearSearch As icon.Reload:
+        AccessibleLabel: =Self.Tooltip
+        Color: =RGBA(235, 235, 230, 1)
+        Height: =88
+        Icon: =Icon.Erase
+        OnSelect: |-
+            =Reset(txtSearchBox_Provider) +
+            Reset(txtSearchBox_Clinic)
+        PaddingBottom: =22
+        PaddingLeft: =22
+        PaddingRight: =22
+        PaddingTop: =22
+        TabIndex: =0
+        Tooltip: ="Clear both search boxes"
+        Width: =88
+        X: =1048
+        ZIndex: =3
+
+    txtSearchBox_Provider As text:
+        Align: =Left
+        Clear: =true
+        Default: =""
+        DelayOutput: =true
+        Height: =68
+        HintText: ="Search providers by last name"
+        PaddingLeft: =70
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =7
+        RadiusTopLeft: =0
+        RadiusTopRight: =7
+        Size: =21
+        Width: =568
+        Y: =RectQuickActionBar1.Height
+        ZIndex: =5
+
+    SearchIcon1 As icon.Search:
+        Color: =RGBA(191, 190, 190, 1)
+        Height: =Self.Width
+        Icon: =Icon.Search
+        PaddingBottom: =14
+        PaddingLeft: =14
+        PaddingRight: =14
+        PaddingTop: =14
+        Tooltip: ="Search"
+        Width: =txtSearchBox_Provider.Height
+        X: =txtSearchBox_Provider.X
+        Y: =txtSearchBox_Provider.Y
+        ZIndex: =6
+
+    Rectangle11 As rectangle:
+        Height: =2
+        Width: =Parent.Width
+        Y: =txtSearchBox_Provider.Y + txtSearchBox_Provider.Height
+        ZIndex: =7
+
+    "ClinicGallery As gallery.'BrowseLayout_Vertical_ThreeTextVariant_ver4.0'":
+        Height: =482
+        Items: =Search(Filter(colClinics, txtSearchBox_Clinic.Text in Title), txtSearchBox_Clinic.Text, "Title")
+        Layout: =Layout.Vertical
+        OnSelect: =Navigate(ClinicScreen, None)
+        TemplatePadding: =0
+        TemplateSize: =213
+        Visible: =!IsBlank(txtSearchBox_Clinic.Text)
+        Width: =566
+        X: =570
+        Y: =158
+        ZIndex: =8
+
+        ClinicSearchNames_1 As label:
+            Color: =If(ThisItem.'Name of Clinic' = "Cheyenne Primary Care", Color.Orange, Color.Black)
+            Height: =46
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =14
+            Text: =ThisItem.'Name of Clinic'
+            VerticalAlign: =VerticalAlign.Top
+            Width: =483
+            X: =18
+            Y: =16
+            ZIndex: =1
+
+        Subtitle9_1 As label:
+            Color: |
+                =If(ThisItem.'MARC-CRC Services' = "Yes", Color.Green, ThisItem.'MARC-CRC Services' = "No", Color.Red)
+            Height: =Self.Size * 1.8
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Text: |-
+                ="MARC-CRC Services?: " &ThisItem.'MARC-CRC Services'
+            VerticalAlign: =VerticalAlign.Top
+            Width: =Parent.TemplateWidth - 104
+            X: =18
+            Y: =62
+            ZIndex: =2
+
+        Body3_1 As label:
+            Height: =33
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Text: |-
+                ="Fax: " & ThisItem.'Fax Number'
+            VerticalAlign: =VerticalAlign.Top
+            Width: =Parent.TemplateWidth - 104
+            X: =18
+            Y: =103
+            ZIndex: =3
+
+        NextArrow9_1 As icon.ChevronRight:
+            AccessibleLabel: =Self.Tooltip
+            Height: =60
+            Icon: =Icon.ChevronRight
+            OnSelect: =Select(Parent)
+            PaddingBottom: =10
+            PaddingLeft: =10
+            PaddingRight: =10
+            PaddingTop: =10
+            TabIndex: =0
+            Tooltip: ="View clinic details"
+            Width: =60
+            X: =Parent.TemplateWidth - Self.Width - 5
+            Y: =(Parent.TemplateHeight / 2) - (Self.Height / 2)
+            ZIndex: =4
+
+        Separator9_1 As rectangle:
+            Height: =1
+            OnSelect: =Select(Parent)
+            Width: =Parent.TemplateWidth
+            Y: =Parent.TemplateHeight - 1
+            ZIndex: =5
+
+        Label2 As label:
+            Height: =58
+            OnSelect: =Select(Parent)
+            Overflow: =Overflow.Scroll
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =14
+            Text: |-
+                ="Epic Code: "& PlainText(ThisItem.EpicDeptCode)
+            Width: =529
+            X: =18
+            Y: =136
+            ZIndex: =6
+
+    txtSearchBox_Clinic As text:
+        Align: =Left
+        BorderStyle: =BorderStyle.Solid
+        Clear: =true
+        Default: =""
+        DelayOutput: =true
+        Height: =68
+        HintText: ="Search clinics"
+        PaddingLeft: =70
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =7
+        RadiusTopLeft: =0
+        RadiusTopRight: =7
+        Size: =21
+        Width: =567
+        X: =568
+        Y: =88
+        ZIndex: =9
+
+    SearchIcon2 As icon.Search:
+        Color: =RGBA(191, 190, 190, 1)
+        Height: =Self.Width
+        Icon: =Icon.Search
+        PaddingBottom: =14
+        PaddingLeft: =14
+        PaddingRight: =14
+        PaddingTop: =14
+        Tooltip: ="Search"
+        Width: =txtSearchBox_Provider.Height
+        X: =570
+        Y: =88
+        ZIndex: =10
+

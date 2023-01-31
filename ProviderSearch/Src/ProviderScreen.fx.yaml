@@ -1,0 +1,393 @@
+"ProviderScreen As screen.'phoneDetailReadonlyViewLayout_ver3.0'":
+    OnVisible: =Reset(txtSearchBox_Clinic)
+
+    RectQuickActionBar2 As rectangle:
+        Fill: =RGBA(166, 9, 61, 1)
+        Height: =88
+        Width: =570
+        ZIndex: =1
+
+    IconBackarrow1 As icon.ChevronLeft:
+        AccessibleLabel: =Self.Tooltip
+        Color: =RGBA(235, 235, 230, 1)
+        Height: =88
+        Icon: =Icon.BackArrow
+        OnSelect: =Navigate(HomeScreen, ScreenTransition.None)
+        PaddingBottom: =24
+        PaddingLeft: =24
+        PaddingRight: =24
+        PaddingTop: =24
+        TabIndex: =0
+        Tooltip: ="Back to list"
+        Width: =88
+        ZIndex: =2
+
+    LblAppName2 As label:
+        Align: =Align.Center
+        Color: =RGBA(235, 235, 230, 1)
+        Fill: =RGBA(166, 9, 61, 1)
+        Height: =88
+        Size: =27
+        Text: ="Provider"
+        Width: =1059
+        Wrap: =false
+        X: =77
+        ZIndex: =3
+
+    DetailForm1 As formViewer:
+        DataSource: =[@'Provider For Patient Line']
+        Height: =Parent.Height - DetailForm1.Y
+        Item: =ProviderGallery.Selected
+        Width: =1136
+        Y: =RectQuickActionBar2.Y + RectQuickActionBar2.Height
+        ZIndex: =4
+
+        "'Name of Provider_DataCard1' As typedDataCard.textualViewCard":
+            BorderStyle: =BorderStyle.Solid
+            BorderThickness: =0
+            DataField: ="Title"
+            Default: =ThisItem.'Name of Provider'
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@'Provider For Patient Line'],DataSourceInfo.DisplayName,"Title")
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =40
+            Required: =false
+            Width: =1136
+            X: =0
+            Y: =0
+            ZIndex: =1
+
+            DataCardKey1 As label:
+                AutoHeight: =true
+                FontWeight: =FontWeight.Semibold
+                Height: =48
+                Size: =21
+                Text: =Parent.DisplayName
+                Underline: =true
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            ProviderNameValue As label:
+                AutoHeight: =true
+                DisplayMode: =Parent.DisplayMode
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =30
+                Text: =Parent.Default
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey1.Y + DataCardKey1.Height + 5
+                ZIndex: =2
+
+        "'Residents/Attending Physician_DataCard1' As typedDataCard.textualViewCard":
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="ResidentsAttendingPhysician"
+            Default: =ThisItem.'Residents/Attending Physician'
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@'Provider For Patient Line'],DataSourceInfo.DisplayName,"ResidentsAttendingPhysician")
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =40
+            Required: =false
+            Width: =1136
+            X: =0
+            Y: =1
+            ZIndex: =1
+
+            DataCardKey6 As label:
+                AutoHeight: =true
+                FontWeight: =FontWeight.Semibold
+                Height: =48
+                Size: =16
+                Text: =Parent.DisplayName
+                Underline: =true
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            AttendingPhysician As label:
+                AutoHeight: =true
+                DisplayMode: =Parent.DisplayMode
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =21
+                Text: =Parent.Default
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey6.Y + DataCardKey6.Height + 5
+                ZIndex: =2
+
+        ProviderStatus_DataCard1 As typedDataCard.comboBoxViewCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="ProviderStatus"
+            Default: =ThisItem.ProviderStatus
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@'Provider For Patient Line'],DataSourceInfo.DisplayName,"ProviderStatus")
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =50
+            Required: =false
+            Update: =PrescriberStatus.Selected
+            Width: =1136
+            X: =0
+            Y: =2
+            ZIndex: =1
+
+            PrescriberStatusKey As label:
+                AutoHeight: =true
+                FontWeight: =FontWeight.Semibold
+                Height: =48
+                Size: =16
+                Text: =Parent.DisplayName
+                Underline: =true
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            PrescriberStatus As combobox:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                Color: |
+                    =If(ThisItem.ProviderStatus.Value = "Active", Color.Green,ThisItem.ProviderStatus.Value = "Left Clinic", Color.Red, Color.Yellow)
+                DefaultSelectedItems: =Parent.Default
+                DisplayFields: =["Value"]
+                DisplayMode: =Parent.DisplayMode
+                FontWeight: =FontWeight.Bold
+                Height: =70
+                Items: =Choices([@'Provider For Patient Line'].ProviderStatus)
+                PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                SearchFields: =["Value"]
+                SearchItems: =Choices('Provider For Patient Line'.ProviderStatus,PrescriberStatus.SearchText)
+                SelectMultiple: =false
+                Size: =30
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =PrescriberStatusKey.Y + PrescriberStatusKey.Height + 5
+                ZIndex: =2
+
+            ErrorMessage3 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =24
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =PrescriberStatus.Y + PrescriberStatus.Height
+                ZIndex: =3
+
+            StarVisible3 As label:
+                Align: =Align.Center
+                Height: =PrescriberStatusKey.Height
+                Size: =21
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =PrescriberStatusKey.Y
+                ZIndex: =4
+
+        Comments_DataCard1 As typedDataCard.textualViewCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Comments"
+            Default: =ThisItem.Comments
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@'Provider For Patient Line'],DataSourceInfo.DisplayName,"Comments")
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =40
+            Required: =false
+            Width: =1136
+            X: =0
+            Y: =3
+            ZIndex: =1
+
+            DataCardKey10 As label:
+                AutoHeight: =true
+                FontWeight: =FontWeight.Semibold
+                Height: =48
+                Size: =16
+                Text: =Parent.DisplayName
+                Underline: =true
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue10 As label:
+                AutoHeight: =true
+                DisplayMode: =Parent.DisplayMode
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =17
+                Text: =PlainText(Parent.Default)
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey10.Y + DataCardKey10.Height + 5
+                ZIndex: =2
+
+        AssociatedClinics_DataCard1 As typedDataCard.comboBoxMultiSelectViewCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="AssociatedClinics"
+            Default: =ThisItem.AssociatedClinics
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@'Provider For Patient Line'],DataSourceInfo.DisplayName,"AssociatedClinics")
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =215
+            Required: =false
+            Update: =ClinicNameValue.SelectedItems
+            Width: =1136
+            X: =0
+            Y: =4
+            ZIndex: =1
+
+            DataCardKey9 As label:
+                AutoHeight: =true
+                FontWeight: =FontWeight.Semibold
+                Height: =48
+                Size: =16
+                Text: =Parent.DisplayName
+                Underline: =true
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            ClinicNameValue As combobox:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                Color: |
+                    =Color.Black
+                DefaultSelectedItems: =Parent.Default
+                DisplayFields: =["Value","Value"]
+                DisplayMode: =Parent.DisplayMode
+                Height: =132
+                Items: =Choices([@'Provider For Patient Line'].AssociatedClinics)
+                PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                SearchFields: =["Value"]
+                SearchItems: =Choices('Provider For Patient Line'.AssociatedClinics,ClinicNameValue.SearchText)
+                Size: =17
+                Template: =ListItemTemplate.Double
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =66
+                ZIndex: =2
+
+            ErrorMessage5 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =24
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =ClinicNameValue.Y + ClinicNameValue.Height
+                ZIndex: =3
+
+            StarVisible5 As label:
+                Align: =Align.Center
+                Height: =DataCardKey9.Height
+                Size: =21
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey9.Y
+                ZIndex: =4
+
+        Specialty_DataCard1 As typedDataCard.comboBoxMultiSelectViewCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Specialty0"
+            Default: =ThisItem.Specialty
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@'Provider For Patient Line'],DataSourceInfo.DisplayName,"Specialty0")
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =50
+            Required: =false
+            Update: =DataCardValue1.SelectedItems
+            Width: =1136
+            X: =0
+            Y: =5
+            ZIndex: =1
+
+            DataCardKey2 As label:
+                AutoHeight: =true
+                FontWeight: =FontWeight.Semibold
+                Height: =48
+                Size: =16
+                Text: =Parent.DisplayName
+                Underline: =true
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue1 As combobox:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                DefaultSelectedItems: =Parent.Default
+                DisplayFields: =["Value"]
+                DisplayMode: =Parent.DisplayMode
+                Height: =70
+                Items: =Choices([@'Provider For Patient Line'].Specialty0)
+                PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                SearchFields: =["Value"]
+                SearchItems: =Choices('Provider For Patient Line'.Specialty0,DataCardValue1.SearchText)
+                Size: =16
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey2.Y + DataCardKey2.Height + 5
+                ZIndex: =2
+
+            ErrorMessage1 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =24
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue1.Y + DataCardValue1.Height
+                ZIndex: =3
+
+            StarVisible1 As label:
+                Align: =Align.Center
+                Height: =DataCardKey2.Height
+                Size: =21
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey2.Y
+                ZIndex: =4
+
+    Home1 As icon.Home:
+        Color: =RGBA(235, 235, 230, 1)
+        Icon: =Icon.Home
+        OnSelect: =Navigate(HomeScreen, None)
+        X: =88
+        Y: =12
+        ZIndex: =9
+

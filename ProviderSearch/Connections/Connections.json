@@ -1,0 +1,34 @@
+{
+  "8a2cf9b9-bdd1-4fb8-80b0-44bbbb75b5b7": {
+    "connectionParameters": {
+      "sku": "Enterprise"
+    },
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "SharePoint",
+      "iconUri": "https://connectoricons-prod.azureedge.net/u/juanq/gateway/greyhound/3000.150.11/1.0.1613.3116/sharepointonline/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_sharepointonline",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {
+      "https://myuch.sharepoint.com/sites/plrc": {
+        "dataSources": {
+          "Clinic For Patient Line": {
+            "tableName": "736b93c5-bfd8-46de-b2f8-5964a659298f"
+          },
+          "Provider For Patient Line": {
+            "tableName": "f5a99cdb-bc0e-4f0e-b8e5-a3a1328789cf"
+          }
+        }
+      }
+    },
+    "dataSources": [
+      "Provider For Patient Line",
+      "Clinic For Patient Line"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "8a2cf9b9-bdd1-4fb8-80b0-44bbbb75b5b7"
+  }
+}

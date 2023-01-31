@@ -47,7 +47,7 @@
 
         txtProviderName As label:
             Height: =Self.Size * 1.8
-            OnSelect: =Select(Parent)
+            OnSelect: =
             PaddingBottom: =0
             PaddingLeft: =0
             PaddingRight: =0
@@ -64,7 +64,7 @@
                 =If(ThisItem.ProviderStatus.Value = "Active", Color.Green,ThisItem.ProviderStatus.Value = "Left Clinic", Color.Red, Color.Blue)
             FontWeight: =FontWeight.Bold
             Height: =Self.Size * 1.8
-            OnSelect: =Select(Parent)
+            OnSelect: =
             PaddingBottom: =0
             PaddingLeft: =0
             PaddingRight: =0
@@ -78,7 +78,7 @@
 
         txtAttending As label:
             Height: =36
-            OnSelect: =Select(Parent)
+            OnSelect: =
             PaddingBottom: =0
             PaddingLeft: =0
             PaddingRight: =0
@@ -137,7 +137,7 @@
 
         txtComments As label:
             Height: =53
-            OnSelect: =Select(Parent)
+            OnSelect: =
             Overflow: =Overflow.Scroll
             Size: =14
             Text: =PlainText(ThisItem.Comments)

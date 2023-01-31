@@ -1,126 +1,12 @@
 DevNotes As screen:
 
-    Label1 As label:
-        Height: =70
-        Size: =21
-        Text: ="SortByColumns(Filter([@'Provider For Patient Line'],  StartsWith(Title, txtSearchBox_Provider.Text)), ""Title"")"
-        Width: =560
-        X: =40
-        Y: =40
-        ZIndex: =1
-
-    "ProviderGallery_Test As gallery.'BrowseLayout_Vertical_ThreeTextVariant_ver4.0'":
-        Height: =484
-        Items: =Search(Filter('Provider For Patient Line',CountRows(Filter(ProviderType, ComboBox1.Selected.Value)) > 0),txtSearchBox_Provider_1.Text,"Title")
-        Layout: =Layout.Vertical
-        OnSelect: =Navigate(ProviderScreen, ScreenTransition.None)
-        ShowScrollbar: =false
-        TemplatePadding: =0
-        TemplateSize: =242
-        Width: =568
-        X: =520
-        Y: =135
-        ZIndex: =3
-
-        txtProviderName_1 As label:
-            Height: =Self.Size * 1.8
-            OnSelect: =Select(Parent)
-            PaddingBottom: =0
-            PaddingLeft: =0
-            PaddingRight: =0
-            PaddingTop: =0
-            Text: =ThisItem.'Name of Provider'
-            VerticalAlign: =VerticalAlign.Top
-            Width: =Parent.TemplateWidth - 104
-            X: =16
-            Y: =18
-            ZIndex: =1
-
-        txtStatus_1 As label:
-            Color: |
-                =If(ThisItem.ProviderStatus.Value = "Active", Color.Green,ThisItem.ProviderStatus.Value = "Left Clinic", Color.Red, Color.Blue)
-            FontWeight: =FontWeight.Bold
-            Height: =Self.Size * 1.8
-            OnSelect: =Select(Parent)
-            PaddingBottom: =0
-            PaddingLeft: =0
-            PaddingRight: =0
-            PaddingTop: =0
-            Text: =ThisItem.ProviderStatus.Value
-            VerticalAlign: =VerticalAlign.Top
-            Width: =Parent.TemplateWidth - 104
-            X: =16
-            Y: =54
-            ZIndex: =2
-
-        txtAttending_1 As label:
-            Height: =36
-            OnSelect: =Select(Parent)
-            PaddingBottom: =0
-            PaddingLeft: =0
-            PaddingRight: =0
-            PaddingTop: =0
-            Text: |-
-                ="Attending Physician: " &ThisItem.'Residents/Attending Physician'
-            VerticalAlign: =VerticalAlign.Top
-            Width: =483
-            X: =16
-            Y: =86
-            ZIndex: =3
-
-        NextArrow3_1 As icon.ChevronRight:
-            AccessibleLabel: =Self.Tooltip
-            Height: =60
-            Icon: =Icon.ChevronRight
-            OnSelect: =Select(Parent)
-            PaddingBottom: =10
-            PaddingLeft: =10
-            PaddingRight: =10
-            PaddingTop: =10
-            TabIndex: =0
-            Tooltip: ="View item details"
-            Width: =60
-            X: =Parent.TemplateWidth - Self.Width - 5
-            Y: =(Parent.TemplateHeight / 2) - (Self.Height / 2)
-            ZIndex: =4
-
-        Separator3_1 As rectangle:
-            Height: =1
-            OnSelect: =Select(Parent)
-            Width: =Parent.TemplateWidth
-            Y: =Parent.TemplateHeight - 1
-            ZIndex: =5
-
-        txtAssocClinics_1 As label:
-            Color: =If(Concat(ThisItem.AssociatedClinics, Value, ", ") = "Cheyenne Primary Care", Color.Orange, Color.Black)
-            Height: =70
-            OnSelect: =Select(Parent)
-            Overflow: =Overflow.Scroll
-            Size: =16
-            Text: =Concat(ThisItem.AssociatedClinics, Value, ", ")
-            Width: =487
-            X: =16
-            Y: =122
-            ZIndex: =6
-
-        txtComments_1 As label:
-            Height: =49
-            OnSelect: =Select(Parent)
-            Overflow: =Overflow.Scroll
-            Size: =14
-            Text: =PlainText(ThisItem.Comments)
-            Width: =534
-            X: =12
-            Y: =192
-            ZIndex: =7
-
-    txtSearchBox_Provider_1 As text:
+    txtSearchBox_Test As text:
         Align: =Left
         Clear: =true
         Default: =""
         DelayOutput: =true
         Height: =68
-        HintText: ="Search providers by last name"
+        HintText: ="Search"
         PaddingLeft: =70
         RadiusBottomLeft: =0
         RadiusBottomRight: =7
@@ -253,4 +139,104 @@ DevNotes As screen:
         X: =1024
         Y: =10
         ZIndex: =7
+
+    "GalleryTest As gallery.'BrowseLayout_Vertical_ThreeTextVariant_ver4.0'":
+        Height: =482
+        Items: =Search(Filter(colClinics, txtSearchBox_Test.Text in EpicDeptCode), txtSearchBox_Test.Text, "EpicDeptCode")
+        Layout: =Layout.Vertical
+        OnSelect: =Navigate(ClinicScreen, None)
+        TemplatePadding: =0
+        TemplateSize: =213
+        Visible: =!IsBlank(txtSearchBox_Clinic.Text)
+        Width: =566
+        X: =570
+        Y: =158
+        ZIndex: =8
+
+        ClinicSearchNames_2 As label:
+            Color: =If(ThisItem.'Name of Clinic' = "Cheyenne Primary Care", Color.Orange, Color.Black)
+            Height: =46
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =14
+            Text: =ThisItem.AddressLine1
+            VerticalAlign: =VerticalAlign.Top
+            Width: =483
+            X: =18
+            Y: =16
+            ZIndex: =1
+
+        Subtitle9_2 As label:
+            Color: |
+                =If(ThisItem.'MARC-CRC Services' = "Yes", Color.Green, ThisItem.'MARC-CRC Services' = "No", Color.Red)
+            Height: =Self.Size * 1.8
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Text: |-
+                ="MARC-CRC Services?: " &ThisItem.'MARC-CRC Services'
+            VerticalAlign: =VerticalAlign.Top
+            Width: =Parent.TemplateWidth - 104
+            X: =18
+            Y: =62
+            ZIndex: =2
+
+        Body3_2 As label:
+            Height: =33
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Text: |-
+                ="Fax: " & ThisItem.'Fax Number'
+            VerticalAlign: =VerticalAlign.Top
+            Width: =Parent.TemplateWidth - 104
+            X: =18
+            Y: =103
+            ZIndex: =3
+
+        NextArrow9_2 As icon.ChevronRight:
+            AccessibleLabel: =Self.Tooltip
+            Height: =60
+            Icon: =Icon.ChevronRight
+            OnSelect: =Select(Parent)
+            PaddingBottom: =10
+            PaddingLeft: =10
+            PaddingRight: =10
+            PaddingTop: =10
+            TabIndex: =0
+            Tooltip: ="View clinic details"
+            Width: =60
+            X: =Parent.TemplateWidth - Self.Width - 5
+            Y: =(Parent.TemplateHeight / 2) - (Self.Height / 2)
+            ZIndex: =4
+
+        Separator9_2 As rectangle:
+            Height: =1
+            OnSelect: =Select(Parent)
+            Width: =Parent.TemplateWidth
+            Y: =Parent.TemplateHeight - 1
+            ZIndex: =5
+
+        Label2_1 As label:
+            Height: =58
+            OnSelect: =Select(Parent)
+            Overflow: =Overflow.Scroll
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =14
+            Text: |-
+                ="Epic Code: "& PlainText(ThisItem.EpicDeptCode)
+            Width: =529
+            X: =18
+            Y: =136
+            ZIndex: =6
 

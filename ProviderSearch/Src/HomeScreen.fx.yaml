@@ -155,7 +155,7 @@
         Text: ="PLRC Provider and Clinic Search"
         Width: =550
         Wrap: =false
-        X: =293
+        X: =283
         ZIndex: =2
 
     ClearSearch As icon.Reload:
